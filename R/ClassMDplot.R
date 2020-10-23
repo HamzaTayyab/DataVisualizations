@@ -143,10 +143,10 @@ ClassMDplot  <- function(Data, Cls, ColorSequence = DataVisualizations::DefaultC
   names(UniqueClassesPlot)=as.vector(ClassData2$ClassNames)
   UniqueClassesPlot=UniqueClassesPlot[unique(names(UniqueClassesPlot))]
 
-  ggobject = ggplot2::ggplot(ClassData2,  aes_string(x = 'class', y = 'data',fill = 'class'),show.legend = PlotLegend) +
+  ggobject = ggplot2::ggplot(ClassData2,  aes_string(x = 'class', y = 'data',colour = 'class'))+
     
-  ggplot2::geom_violin(stat = "PDEdensity",aes_string(x='class', y='data',fill = 'class'),scale='width',show.legend = PlotLegend)
-    
+    ggplot2::geom_violin(stat = "PDEdensity" ,aes_string(x = 'class', y='data',fill = 'class', colour = 'class'),scale='area',show.legend = PlotLegend)
+  
     
   # ggobject <- ggplot(ClassData, aes(x = factor(class), y = data)) +
   #   
@@ -167,15 +167,15 @@ ClassMDplot  <- function(Data, Cls, ColorSequence = DataVisualizations::DefaultC
         DataJitter[DataJitter$class==UniqueClasses[i],'data']=NaN
       }
     }
-    ggobject=ggobject+geom_jitter(size=2,data =DataJitter,aes_string(x = 'class', y = 'data',fill='class'),position=position_jitter(0.15),show.legend = PlotLegend)
+    ggobject = ggobject+geom_jitter(height = 0.03, width = 0.03, aes_string(colour='class'))
     
   }
 
-  ggobject=ggobject+ylab(ylab) + xlab(xlab) +
-    scale_x_discrete(limits=UniqueClassesPlot,labels = ClassNames) +
-    scale_fill_manual(limits=UniqueClassesPlot,values = Colors,
-                      name = "Classes") +
-    ggtitle(main)+ theme(axis.text.x = element_text(angle = 45, hjust = 1,size = rel(1.2)))
+  # ggobject=ggobject+ylab(ylab) + xlab(xlab) +
+  #   scale_x_discrete(limits=UniqueClassesPlot,labels = ClassNames) +
+  #   scale_fill_manual(limits=UniqueClassesPlot,values = Colors,
+  #                     name = "Classes") +
+  #   ggtitle(main)+ theme(axis.text.x = element_text(angle = 45, hjust = 1,size = rel(1.2)))
 
 
   if (isFALSE(PlotLegend)){
